@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Simple jQuery Plugin: Accordion</title>
+	<style>
+		* {
+			padding: 0;
+			margin: 0;
+		}
+		
+		body {
+			font-family: Arial, Helvetica, sans-serif;
+		}
+		
+		a {
+			text-decoration: none;
+			color: #333;
+		}
+		
+		a:hover {
+			text-decoration: underline;
+		}
+		
+		.menu {
+			list-style-type: none;
+			max-width: 600px;
+			margin: 20px auto 0;
+		}
+		
+		.menu li {
+			border-bottom: 1px solid #e5e5e5;
+			position: relative;
+		}
+		
+		.menu li:after {
+			content: "";
+			width: 0;
+			height: 0;
+			border-style: solid;
+			border-width: 5px 0 5px 5px;
+			border-color: transparent transparent transparent #ccc;
+			position: absolute;
+			top: 15px;
+			right: 15px;
+			transition: all 0.3s ease;
+			-ms-transform-origin: center center;
+			-webkit-transform-origin: center center;
+			transform-origin: center center;
+		}
+		
+		.menu li a.trigger {
+			display: block;
+			padding: 10px 15px;
+			background: #f5f5f5;
+		}
+		
+		.menu li div.panel {
+			overflow: hidden;
+		}
+		
+		.menu li div.panel .content {
+			padding: 10px 15px;
+			width: 100%;
+			box-sizing: border-box;
+		}
+		
+		.menu li.closed:after {
+			-ms-transform: rotate(90deg);
+			/* IE 9 */
+			-webkit-transform: rotate(90deg);
+			/* Chrome, Safari, Opera */
+			transform: rotate(90deg);
+		}
+		
+		.menu li.closed .panel {
+			display: none;
+		}
+	</style>
+</head>
+
+<body>
+
+	<ul class="menu">
+		<li>
+			<a href="#" class="trigger">Panel 1</a>
+			<div class="panel">
+				<div class="content">
+					Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy
+					text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+					It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+					It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently
+					with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+				</div>
+			</div>
+		</li>
+		<li>
+			<a href="#" class="trigger">Panel 2</a>
+			<div class="panel">
+				<div class="content">
+					Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy
+					text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+					It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+					It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently
+					with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+				</div>
+			</div>
+		</li>
+		<li>
+			<a href="#" class="trigger">Panel 3</a>
+			<div class="panel">
+				<div class="content">
+					Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy
+					text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+					It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+					It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently
+					with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+				</div>
+			</div>
+		</li>
+	</ul>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script>
+        // Pass in the selection($) to the IIFE
+        (function($) {
+
+            // Add new function called 'accordion' to jQuery that extend, not modify the libraries functionality.
+            $.fn.accordion = function(options) {
+
+                // Initial settings whether you want the accordion to start with item content showing?  
+                var itemDefault = this.children();
+                
+                if(options.closed == true) {
+                    itemDefault.addClass('closed');
+                } else {
+                    itemDefault.removeClass('closed');
+                }
+
+                this.on('click', '.trigger', function(e) {
+                    
+                    // Prevent the default behaviour of the element which was clicked upon. 
+                    // In this case the <a> would jump to the top of the HTML page.  
+                    e.preventDefault();
+                    
+                    // The 'this' keyword in this context refers to the element which is clicked upon (.trigger').
+                    // Next refers to div.panel, and slideToggle when the state of the element is not animating.
+                    $(this).next('.panel').not(':animated').slideToggle(options.speed);
+
+
+                    // If <li> has class 'closed' on click of '.trigger' remove the 'closed' class, else add the 'closed' class. 
+                    var item = $(this).parent();
+                    
+                    if( item.hasClass('closed')) {
+                        item.removeClass('closed');
+                    } else {
+                        item.addClass('closed');
+                    }
+                });
+
+                // The keyword 'this' refers to the DOM selection.
+                // Also helps other functions when chaining know what 'this' is, meaning the DOM element.
+                return this;
+            }
+
+        })(jQuery);
+
+ 
+        // To initialise the new plugin. Pass in object as settings
+        $('.menu').accordion({
+            speed: 250,
+            closed: true
+        });
+    </script>
+</body>
