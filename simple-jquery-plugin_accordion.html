@@ -131,13 +131,8 @@
             $.fn.accordion = function(options) {
 
                 // Initial settings whether you want the accordion to start with item content showing?  
-                var itemDefault = this.children();
-                
-                if(options.closed == true) {
-                    itemDefault.addClass('closed');
-                } else {
-                    itemDefault.removeClass('closed');
-                }
+                var collapsed = this.children();
+                options.closed == true ? collapsed.addClass('closed') : collapsed.removeClass('closed');
 
                 this.on('click', '.trigger', function(e) {
                     
@@ -149,15 +144,10 @@
                     // Next refers to div.panel, and slideToggle when the state of the element is not animating.
                     $(this).next('.panel').not(':animated').slideToggle(options.speed);
 
-
                     // If <li> has class 'closed' on click of '.trigger' remove the 'closed' class, else add the 'closed' class. 
                     var item = $(this).parent();
+                    item.hasClass('closed') ? item.removeClass('closed') : item.addClass('closed');
                     
-                    if( item.hasClass('closed')) {
-                        item.removeClass('closed');
-                    } else {
-                        item.addClass('closed');
-                    }
                 });
 
                 // The keyword 'this' refers to the DOM selection.
@@ -167,7 +157,6 @@
 
         })(jQuery);
 
- 
         // To initialise the new plugin. Pass in object as settings
         $('.menu').accordion({
             speed: 250,
