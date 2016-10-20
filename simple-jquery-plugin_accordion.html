@@ -124,7 +124,9 @@
 	</ul>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script>
-        // Pass in the selection($) to the IIFE
+        // Self invoking function (IIFE) which is passed $ to ensure no conflicts with other libraries.
+		// The $ is mapped to the closure, ensuring nothing outside its scope can affect the doller sign.
+		// A closure is an inner function that has access to the outer (enclosing) function's variables. Allows functions to have private variables.
         (function($) {
 
             // Add new function called 'accordion' to jQuery that extend, not modify the libraries functionality.
